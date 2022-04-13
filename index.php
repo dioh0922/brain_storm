@@ -2,8 +2,11 @@
 require_once(dirname(__FILE__)."/svr/BrainStormModule.php");
 $module = new BrainStorm();
 $list = $module->getBrainStormThemes();
-$node = $module->getDiscussionNode(1);
-
+$id = 0;
+if(array_key_exists("id", $_GET)){
+	$id = (int)$_GET["id"];
+}
+$node = $module->getDiscussionNode($id);
 ?>
 
 <!DOCTYPE html>
@@ -15,15 +18,17 @@ $node = $module->getDiscussionNode(1);
 
 	</head>
 	<body>
+		<?php if($id > 0){ ?>
 		<div class="mermaid">
 			graph LR;
 			<?php foreach ($node as $key => $value) { ?>
        <?php echo str_replace(" ", "_", $value["base"])."-->".$value["relation"].$value["dist"].";"?>
 			<?php } ?>
 		</div>
+		<?php } ?>
 		<ul>
 			<?php foreach ($list as $key => $value) { ?>
-				<li onClick="selectTheme(<?php echo $value->id; ?>)"><?php echo $value->id." ".$value->discussion_title ?></li>
+				<li> <a href="./?id=<?php echo $value->id; ?>"><?php echo $value->id." ".$value->discussion_title ?></a></li>
 			<?php } ?>
 		</ul>
 
