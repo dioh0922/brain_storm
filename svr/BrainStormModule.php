@@ -30,26 +30,25 @@ class BrainStorm{
 			$relation = ORM::for_table("brain_storm_node")->table_alias("base_node")
 			->select("base_node.summary", "base")
 			->select("dist_node.summary", "dist")
+			->select("brain_storm_relation.relation_summary", "relation")
 			->join("brain_storm_relation", ["base_node.node_id", "=", "brain_storm_relation.base_node_id"])
 			->join("brain_storm_node", ["dist_node.node_id", "=", "brain_storm_relation.dist_node_id"], "dist_node")
 			->where("dist_node.node_id", $value->node_id)
 			->find_many();
 			foreach ($relation as $key => $relation_obj) {
-				$tmp = ["base" => $relation_obj->base, "dist" => $relation_obj->dist];
+				$tmp = [
+					"base" => str_replace(" ", "_", $relation_obj->base),
+					"dist" => str_replace(" ", "_", $relation_obj->dist),
+					"relation" => ""
+				];
+				if(!empty($relation_obj->relation)){
+					$tmp["relation"] = sprintf("|%s|", str_replace(" ", "_", $relation_obj->relation));
+				}
 				$result[] = $tmp;
 			}
 		}
 
 		return $result;
-	}
-
-	private function _a(int $id){
-		$list = ORM::for_table("brain_storm")
-		->join("brain_storm_node", ["brain_storm.id", "=", "brain_storm_node.target_discus_id"])
-		->join("brain_storm_relation", ["brain_storm_node.node_id", "=", "brain_storm_relation.base_node_id"])
-		->where("brain_storm.id", $id)
-		->find_many();
-		return $list;
 	}
 }
 
