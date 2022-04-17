@@ -1,5 +1,5 @@
 <?php
-require("./vendor/autoload.php");
+require(dirname(__FILE__)."/../vendor/autoload.php");
 class BrainStorm{
 	//ORMと.ENVにする
 	private $env = null;
@@ -21,10 +21,10 @@ class BrainStorm{
 		$result = [];
 
 		//対象のネタに関する記述を取ってくる
-		$node = ORM::for_table("brain_storm")
+		$node = ORM::forTable("brain_storm")
 		->join("brain_storm_node", ["brain_storm.id", "=", "brain_storm_node.target_discus_id"])
 		->where("brain_storm.id", $id)
-		->find_many();
+		->findMany();
 
 		foreach ($node as $key => $value) {
 			$relation = ORM::for_table("brain_storm_node")->table_alias("base_node")
@@ -50,6 +50,16 @@ class BrainStorm{
 
 		return $result;
 	}
+
+	public function addTheme(string $title){
+		$result = 0;
+		$theme = ORM::forTable("brain_storm")->create();
+		$theme->discussion_title = $title;
+		$theme->save();
+		$result = $theme->id;
+		return $result;
+	}
+
 }
 
 ?>

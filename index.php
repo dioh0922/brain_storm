@@ -6,6 +6,12 @@ $id = 0;
 if(array_key_exists("id", $_GET)){
 	$id = (int)$_GET["id"];
 }
+
+$er = 0;
+if(array_key_exists("er", $_GET)){
+	$er = 1;
+}
+
 $node = $module->getDiscussionNode($id);
 ?>
 
@@ -18,6 +24,10 @@ $node = $module->getDiscussionNode($id);
 
 	</head>
 	<body>
+		<?php if($er == 1){ ?>
+			<h2>追加に失敗しました</h2>
+		<?php } ?>
+
 		<?php if($id > 0){ ?>
 		<div class="mermaid">
 			graph LR;
@@ -31,6 +41,11 @@ $node = $module->getDiscussionNode($id);
 				<li> <a href="./?id=<?php echo $value->id; ?>"><?php echo $value->id." ".$value->discussion_title ?></a></li>
 			<?php } ?>
 		</ul>
+
+		<form class="" action="./api/addTheme.php" method="post">
+			<input type="text" name="title" value="">
+			<input type="submit" name="" value="テーマ追加">
+		</form>
 
 		<script src="./js/src/brain_storm.js"></script>
 	</body>
