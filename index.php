@@ -9,10 +9,11 @@ if(array_key_exists("id", $_GET)){
 
 $er = 0;
 if(array_key_exists("er", $_GET)){
-	$er = 1;
+	$er = (int)$_GET["er"];
 }
 
 $node = $module->getDiscussionNode($id);
+$node_item = $module->getNodeItem($id);
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +27,8 @@ $node = $module->getDiscussionNode($id);
 	<body>
 		<?php if($er == 1){ ?>
 			<h2>追加に失敗しました</h2>
+		<?php }elseif($er == 2){ ?>
+			<h2>アイデアの編集に失敗しました</h2>
 		<?php } ?>
 
 		<?php if($id > 0){ ?>
@@ -45,6 +48,24 @@ $node = $module->getDiscussionNode($id);
 		<form class="" action="./api/addTheme.php" method="post">
 			<input type="text" name="title" value="">
 			<input type="submit" name="" value="テーマ追加">
+		</form>
+
+		<form class="" action="./api/editNode.php" method="post">
+			<select class="" name="base">
+				<option value="0">派生元</option>
+				<?php foreach($node_item as $key => $obj){ ?>
+					<option value='<?php echo $obj["id"] ?>'><?php echo $obj["text"] ?></option>
+				<?php } ?>
+			</select>
+			<input type="hidden" name="id" value="<?php echo $id ?>"/>
+			<input type="text" name="detail" value="" placeholder="説明を入力">
+			<select class="" name="dist">
+				<option value="0">コメント対象</option>
+				<?php foreach($node_item as $key => $obj){ ?>
+					<option value='<?php echo $obj["id"] ?>'><?php echo $obj["text"] ?></option>
+				<?php } ?>
+			</select>
+			<input type="text" name="comment" value="" placeholder="アイデアを入力"><input type="submit" value="アイデア追加"/>
 		</form>
 
 		<script src="./js/src/brain_storm.js"></script>

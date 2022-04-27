@@ -27,18 +27,20 @@ class BrainStorm{
 		->findMany();
 
 		foreach ($node as $key => $value) {
-			$relation = ORM::for_table("brain_storm_node")->table_alias("base_node")
+			$relation = ORM::forTable("brain_storm_node")->tableAlias("base_node")
 			->select("base_node.summary", "base")
 			->select("dist_node.summary", "dist")
 			->select("brain_storm_relation.relation_summary", "relation")
 			->join("brain_storm_relation", ["base_node.node_id", "=", "brain_storm_relation.base_node_id"])
 			->join("brain_storm_node", ["dist_node.node_id", "=", "brain_storm_relation.dist_node_id"], "dist_node")
 			->where("dist_node.node_id", $value->node_id)
-			->find_many();
+			->findMany();
 			foreach ($relation as $key => $relation_obj) {
 				$tmp = [
 					"base" => str_replace(" ", "_", $relation_obj->base),
 					"dist" => str_replace(" ", "_", $relation_obj->dist),
+					"base_id" => $relation_obj->base_id,
+					"dist_id" => $relation_obj->dist_id,
 					"relation" => ""
 				];
 				if(!empty($relation_obj->relation)){
@@ -51,6 +53,25 @@ class BrainStorm{
 		return $result;
 	}
 
+	public function getNodeItem(int $id){
+		$result = [];
+		$result = ORM::forTable("brain_storm_node")
+		->select("node_id", "id")
+		->select("summary", "text")
+		->where("target_discus_id", $id)
+		->findMany();
+		return $result;
+	}
+
+	public function editNode(int $id, string $text){
+		$idea = ORM::forTable("brain_storm_node")->create();
+		$idea->summary = $text;
+		$idea->target_discus_id = $id;
+		$idea->edit_date = date("Y-m-d H:i:s");
+		$idea->save();
+		return $idea->id;
+	}
+
 	public function addTheme(string $title){
 		$result = 0;
 		$theme = ORM::forTable("brain_storm")->create();
@@ -58,6 +79,15 @@ class BrainStorm{
 		$theme->save();
 		$result = $theme->id;
 		return $result;
+	}
+
+	public function addRelation(int $id, int $dist, string $detail){
+		$relation = ORM::forTable("brain_storm_relation")->create();
+		$relation->base_node_id = $id;
+		$relation->dist_node_id = $dist;
+		$relation->relation_summary = $detail;
+		$relation->save();
+		return $relation->id;
 	}
 
 }
