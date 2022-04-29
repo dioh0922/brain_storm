@@ -19,6 +19,8 @@ if($dist == 0 && $base > 0){
 	$result = $module->addRelation($ins_id, $dist, $_POST["detail"]);
 }else if($dist > 0 && $base > 0){
 	$result = $module->addRelation($base, $dist, $_POST["detail"]);
+}else if($dist == 0 && $base == 0){
+	$ins_id = $module->editNode($_POST["id"], $_POST["comment"]);
 }
 
 if((int)$result > 0){

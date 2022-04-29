@@ -78,6 +78,9 @@ class BrainStorm{
 		$theme->discussion_title = $title;
 		$theme->save();
 		$result = $theme->id;
+		if($theme->id > 0){
+			$this->editNode($theme->id, $title);
+		}
 		return $result;
 	}
 
