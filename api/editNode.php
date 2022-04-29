@@ -1,17 +1,26 @@
 <?php
 require_once(dirname(__FILE__)."/../svr/BrainStormModule.php");
 $module = new BrainStorm();
-$ins_id = $module->editNode($_POST["id"], $_POST["comment"]);
+$dist = 0;
+$base = 0;
+$ins_id = 0;
 if(array_key_exists("dist", $_POST)){
-	if($_POST["dist"] != 0){
-		$result = $module->addRelation($ins_id, (int)$_POST["dist"], $_POST["detail"]);
-	}
+	$dist = (int)$_POST["dist"];
 }
 if(array_key_exists("base", $_POST)){
-	if($_POST["base"] != 0){
-		$result = $module->addRelation((int)$_POST["base"], $ins_id, $_POST["detail"]);
-	}
+	$base = (int)$_POST["base"];
 }
+
+if($dist == 0 && $base > 0){
+	$ins_id = $module->editNode($_POST["id"], $_POST["comment"]);
+	$result = $module->addRelation($base, $ins_id, $_POST["detail"]);
+}else if($dist > 0 && $base == 0){
+	$ins_id = $module->editNode($_POST["id"], $_POST["comment"]);
+	$result = $module->addRelation($ins_id, $dist, $_POST["detail"]);
+}else if($dist > 0 && $base > 0){
+	$result = $module->addRelation($base, $dist, $_POST["detail"]);
+}
+
 if((int)$result > 0){
 	header("Location: ../?id=".$_POST["id"]);
 }else{

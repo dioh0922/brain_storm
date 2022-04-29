@@ -82,12 +82,22 @@ class BrainStorm{
 	}
 
 	public function addRelation(int $id, int $dist, string $detail){
-		$relation = ORM::forTable("brain_storm_relation")->create();
-		$relation->base_node_id = $id;
-		$relation->dist_node_id = $dist;
-		$relation->relation_summary = $detail;
-		$relation->save();
-		return $relation->id;
+		$result = 0;
+		$exist = ORM::forTable("brain_storm_relation")
+		->select("relation_id", "id")
+		->where(["base_node_id" => $id, "dist_node_id" => $dist])
+		->findOne();
+		if($exist == false){
+			$relation = ORM::forTable("brain_storm_relation")->create();
+			$relation->base_node_id = $id;
+			$relation->dist_node_id = $dist;
+			$relation->relation_summary = $detail;
+			$relation->save();
+			$result = $relation->id;
+		}else{
+			$result = $exist->id;
+		}
+		return $result;
 	}
 
 }
