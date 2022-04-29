@@ -68,31 +68,6 @@ $node_item = $module->getNodeItem($id);
 			<input type="text" name="comment" value="" placeholder="アイデアを入力"><input type="submit" value="アイデア追加"/>
 		</form>
 
-		<div class="mermaid">
-			flowchart LR
-			 表示までOK-->保存できるように
-			 表示までOK-->UI調整
-			 ノード間連携-->|選択式|UI調整
-			 表示までOK-->ノード間連携
-			 議事録保存-->|最終的に|ノード間連携
-			 UI調整-->baseとdistを選ぶ
-			 保存できるように-->ネタ保存
-			 保存できるように-->議事録保存
-
-			 UI調整-->13{ }
-			 13-->ネタはタブみたいに
-			 jsフロントエンド-->13
-
-			 議事録保存-->|0427|選択して保存まで
-
-			 選択して保存まで-->12{ }
-
-			 jsフロントエンド-->12
-			 12-->ノード選択はどちらか1つまで
-
-			 表示までOK-->|複数合流の時|連結整理
-		</div>
-
 		<script src="./js/src/brain_storm.js"></script>
 	</body>
 </html>
