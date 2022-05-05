@@ -1,5 +1,6 @@
 <?php
 require(dirname(__FILE__)."/../vendor/autoload.php");
+use eftec\bladeone\BladeOne;
 class BrainStorm{
 	//ORMと.ENVにする
 	private $env = null;
@@ -15,6 +16,14 @@ class BrainStorm{
 	public function getBrainStormThemes(){
 		$list = ORM::for_table("brain_storm")->find_many();
 		return $list;
+	}
+
+	public function disp(int $id, int $er){
+		$node = $this->getDiscussionNode($id);
+		$node_item = $this->getNodeItem($id);
+		$list = $this->getBrainStormThemes();
+		$blade = new BladeOne(dirname(__FILE__)."/../view", "./cache", BladeOne::MODE_AUTO);
+		return $blade->run("index", compact("list", "node", "node_item", "id", "er"));
 	}
 
 	public function getDiscussionNode(int $id){
