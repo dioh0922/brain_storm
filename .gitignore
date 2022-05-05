@@ -1,3 +1,4 @@
 /vendor
 /env/.env
 /js/node_modules
+/cache

@@ -1,6 +1,7 @@
 {
     "require": {
         "vlucas/phpdotenv": "^5.4",
-        "j4mie/idiorm": "^1.5"
+        "j4mie/idiorm": "^1.5",
+        "eftec/bladeone": "^4.5"
     }
 }
