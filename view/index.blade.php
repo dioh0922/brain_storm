@@ -25,70 +25,99 @@
 
 	</head>
 	<body>
-		<p>旅行するときの計画メモ</p>
-		@if($er == 1)
-			<h2>追加に失敗しました</h2>
-		@elseif($er == 2)
-			<h2>アイデアの編集に失敗しました</h2>
-		@endif
 
-		@if($id > 0)
-		<div class="mermaid">
-			flowchart LR;
-			@foreach($node as $iter)
-			 {{str_replace(" ", "_", $iter["base"])}}-->{{$iter["relation"]}}{{$iter["dist"]}};
-		 	@endforeach
-		</div>
-		@endif
-		<div class="row" >
-			<div class="col s7">
-				<ul class="tabs z-depth-1" style="height: 60px;">
-					@foreach($list as $theme)
-						<li class="tab">
-							@if($id == $theme->id)
-								<a class="active" targt="_self" href="./?id={{$theme->id}}">{{$theme->discussion_title}}</a>
-							@else
-								<a target="_self" href="./?id={{$theme->id}}">{{$theme->discussion_title}}</a>
-							@endif
-					</li>
-					@endforeach
-				</ul>
+		<div class="container">
+			<nav>
+				<div class="nav-wrapper">
+					<div class="container">
+						<p>旅行するときの計画メモ</p>
+					</div>
+				</div>
+			</nav>
+
+			<div class="nav-content">
+				@if($er == 1)
+				<h2>追加に失敗しました</h2>
+				@elseif($er == 2)
+				<h2>アイデアの編集に失敗しました</h2>
+				@endif
+			</div>
+
+
+			@if($id > 0)
+			<div class="mermaid">
+				flowchart LR;
+				@foreach($node as $iter)
+				 {{str_replace(" ", "_", $iter["base"])}}-->{{$iter["relation"]}}{{$iter["dist"]}};
+			 	@endforeach
+			</div>
+			@endif
+			<div class="row" >
+				<div class="col s12">
+					<ul class="tabs z-depth-1" style="height: 60px;">
+						@foreach($list as $theme)
+							<li class="tab">
+								@if($id == $theme->id)
+									<a class="active" targt="_self" href="./?id={{$theme->id}}">{{$theme->discussion_title}}</a>
+								@else
+									<a target="_self" href="./?id={{$theme->id}}">{{$theme->discussion_title}}</a>
+								@endif
+						</li>
+						@endforeach
+					</ul>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="green lighten-5 col s12">
+					<form class="" name="theme" action="./api/addTheme.php" method="post">
+						<input type="text" name="title" placeholder="目的地を入力" value="">
+						@if($login)
+							<a href="javascript:theme.submit()" class="btn-floating btn waves-effect waves-light red">
+								<i class="tiny material-icons">file_upload</i>
+							</a>
+						@else
+							<a disabled="disabled" href="javascript:theme.submit()" class="btn-floating btn waves-effect waves-light gray">
+								<i class="tiny material-icons">file_upload</i>
+							</a>
+						@endif
+					</form>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="grey lighten-4 col s12">
+					<form class="" name="comment" action="./api/editNode.php" method="post">
+						<div class="input-field">
+							<select name="base">
+								<option value="0">派生元</option>
+								@foreach($node_item as $obj)
+									<option value='{{$obj["id"]}}'>{{$obj["text"]}}</option>
+								@endforeach
+							</select>
+						</div>
+						<input type="hidden" name="id" value="<?php echo $id ?>"/>
+						<input type="text" name="detail" value="" placeholder="行き方/所要時間etcを入力">
+						<select class="" name="dist">
+							<option value="0">コメント対象</option>
+							@foreach($node_item as $obj)
+								<option value='{{$obj["id"]}}'>{{$obj["text"]}}</option>
+							@endforeach
+						</select>
+						<input type="text" name="comment" value="" placeholder="場所を入力">
+						@if($login)
+						<a href="javascript:comment.submit()" class="btn-floating btn waves-effect waves-light green">
+							<i class="tiny material-icons">edit</i>
+						</a>
+						@else
+							<a disabled="disabled" href="javascript:comment.submit()" class="btn-floating btn waves-effect waves-light gray">
+								<i class="tiny material-icons">edit</i>
+							</a>
+						@endif
+					</form>
+				</div>
 			</div>
 		</div>
-
-		<div class="green lighten-5">
-			<form class="" name="theme" action="./api/addTheme.php" method="post">
-				<input type="text" name="title" placeholder="目的地を入力" value="">
-				<a href="javascript:theme.submit()" class="btn-floating btn waves-effect waves-light red">
-					<i class="tiny material-icons">file_upload</i>
-				</a>
-			</form>
-		</div>
-
-		<div class="grey lighten-4">
-			<form class="" name="comment" action="./api/editNode.php" method="post">
-				<div class="input-field">
-					<select name="base">
-						<option value="0">派生元</option>
-						@foreach($node_item as $obj)
-							<option value='{{$obj["id"]}}'>{{$obj["text"]}}</option>
-						@endforeach
-					</select>
-				</div>
-				<input type="hidden" name="id" value="<?php echo $id ?>"/>
-				<input type="text" name="detail" value="" placeholder="行き方/所要時間etcを入力">
-				<select class="" name="dist">
-					<option value="0">コメント対象</option>
-					@foreach($node_item as $obj)
-						<option value='{{$obj["id"]}}'>{{$obj["text"]}}</option>
-					@endforeach
-				</select>
-				<input type="text" name="comment" value="" placeholder="場所を入力">
-				<a href="javascript:comment.submit()" class="btn-floating btn waves-effect waves-light green">
-					<i class="tiny material-icons">edit</i>
-				</a>
-			</form>
-		</div>
-
 	</body>
 </html>

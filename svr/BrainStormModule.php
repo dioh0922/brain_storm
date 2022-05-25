@@ -22,8 +22,9 @@ class BrainStorm{
 		$node = $this->getDiscussionNode($id);
 		$node_item = $this->getNodeItem($id);
 		$list = $this->getBrainStormThemes();
+		$login = false;
 		$blade = new BladeOne(dirname(__FILE__)."/../view", "./cache", BladeOne::MODE_AUTO);
-		return $blade->run("index", compact("list", "node", "node_item", "id", "er"));
+		return $blade->run("index", compact("list", "node", "node_item", "id", "er", "login"));
 	}
 
 	public function getDiscussionNode(int $id){
