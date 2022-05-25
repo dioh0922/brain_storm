@@ -72,20 +72,19 @@
 			<div class="row">
 				<div class="green lighten-5 col s12">
 					<form class="" name="theme" action="./api/addTheme.php" method="post">
-						<input type="text" name="title" placeholder="目的地を入力" value="">
+						<input type="text" required name="title" placeholder="目的地を入力" value="">
 						@if($login)
 							<a href="javascript:theme.submit()" class="btn-floating btn waves-effect waves-light red">
 								<i class="tiny material-icons">file_upload</i>
 							</a>
 						@else
-							<a disabled="disabled" href="javascript:theme.submit()" class="btn-floating btn waves-effect waves-light gray">
+							<a disabled="disabled" href="javascript:theme.submit()" class="btn-floating btn waves-effect waves-light grey">
 								<i class="tiny material-icons">file_upload</i>
 							</a>
 						@endif
 					</form>
 				</div>
 			</div>
-
 			<div class="row">
 				<div class="grey lighten-4 col s12">
 					<form class="" name="comment" action="./api/editNode.php" method="post">
@@ -111,13 +110,26 @@
 							<i class="tiny material-icons">edit</i>
 						</a>
 						@else
-							<a disabled="disabled" href="javascript:comment.submit()" class="btn-floating btn waves-effect waves-light gray">
+							<a disabled="disabled" href="javascript:comment.submit()" class="btn-floating btn waves-effect waves-light grey">
 								<i class="tiny material-icons">edit</i>
 							</a>
 						@endif
 					</form>
 				</div>
 			</div>
+
+			@if(!$login)
+			<div class="row">
+				<form class="" name="login" action="./api/login.php" method="post">
+					<input type="hidden" name="id" value="{{$id}}"/>
+					<input type="password" name="password" placeholder="パスワード" value="">
+					<a href="javascript:login.submit()" class="btn-floating btn waves-effect waves-light grey darken-1">
+						<i class="tiny material-icons">vpn_key</i>
+					</a>
+				</form>
+			</div>
+			@endif
+
 		</div>
 	</body>
 </html>

@@ -1,6 +1,8 @@
 <?php
 require(dirname(__FILE__)."/../vendor/autoload.php");
 use eftec\bladeone\BladeOne;
+session_start();
+
 class BrainStorm{
 	//ORMと.ENVにする
 	private $env = null;
@@ -23,8 +25,20 @@ class BrainStorm{
 		$node_item = $this->getNodeItem($id);
 		$list = $this->getBrainStormThemes();
 		$login = false;
+		if(session_status() == PHP_SESSION_ACTIVE && array_key_exists("login", $_SESSION)){
+			$login = true;
+		}
 		$blade = new BladeOne(dirname(__FILE__)."/../view", "./cache", BladeOne::MODE_AUTO);
 		return $blade->run("index", compact("list", "node", "node_item", "id", "er", "login"));
+	}
+
+	public function login(string $password){
+		$result = false;
+		if(openssl_encrypt($password, "AES-128-ECB", $_ENV["EDIT_KEY"]) == $_ENV["EDIT_PASSWORD"]){
+			$_SESSION["login"] = "on";
+			$result = true;
+		}
+		return $result;
 	}
 
 	public function getDiscussionNode(int $id){
