@@ -8,7 +8,7 @@ class BrainStorm{
 	private $env = null;
 
 	public function __construct(){
-		$env = Dotenv\Dotenv::createImmutable(__DIR__."/../env");
+		$env = Dotenv\Dotenv::createImmutable(__DIR__."/../../env");
 		$env->load();
 		ORM::configure("mysql:host=localhost;charset=utf8;dbname=".$_ENV["DB_DB"]);
 		ORM::configure("username", $_ENV["DB_USER"]);
