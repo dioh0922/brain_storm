@@ -30,7 +30,9 @@
 			<nav>
 				<div class="nav-wrapper">
 					<div class="container">
-						<p>旅行するときの計画メモ</p>
+						<div class="col s12">
+							<h4 class="center-align" style="padding-top: 10px;">旅行するときの計画メモ</h4>
+						</div>
 					</div>
 				</div>
 			</nav>
