@@ -2,6 +2,7 @@
 require_once(dirname(__FILE__)."/svr/BrainStormModule.php");
 $module = new BrainStorm();
 $id = 0;
+ini_set('display_errors', "On");
 if(array_key_exists("id", $_GET)){
 	$id = (int)$_GET["id"];
 }
