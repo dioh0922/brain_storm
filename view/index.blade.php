@@ -12,7 +12,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.14.0/mermaid.min.js" integrity="sha512-vLumCjg7NKEQKGM+xAgBYTvQ90DVu6Eo7vS1T/iPf2feNLcrpGxvumuUUmE3CPiCUPgviyKbtpWGDbhnVnmJxg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<title></title>
+		<title>行程メモ</title>
 
 		<script type="text/javascript">
 			$(document).ready(function(){
@@ -31,7 +31,7 @@
 				<div class="nav-wrapper">
 					<div class="container">
 						<div class="col s12">
-							<h4 class="center-align" style="padding-top: 10px;">旅行するときの計画メモ</h4>
+							<h5 class="center-align" style="padding-top: 10px;">旅行するときの計画メモ</h5>
 						</div>
 					</div>
 				</div>
@@ -80,7 +80,7 @@
 								<i class="tiny material-icons">file_upload</i>
 							</a>
 						@else
-							<a disabled="disabled" href="javascript:theme.submit()" class="btn-floating btn waves-effect waves-light grey">
+							<a disabled="disabled" class="btn-floating btn waves-effect waves-light grey">
 								<i class="tiny material-icons">file_upload</i>
 							</a>
 						@endif
@@ -88,7 +88,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="grey lighten-4 col s12">
+				<div class="green lighten-5 col s12">
 					<form class="" name="comment" action="./api/editNode.php" method="post">
 						<div class="input-field">
 							<select name="base">
@@ -112,13 +112,32 @@
 							<i class="tiny material-icons">edit</i>
 						</a>
 						@else
-							<a disabled="disabled" href="javascript:comment.submit()" class="btn-floating btn waves-effect waves-light grey">
+							<a disabled="disabled" class="btn-floating btn waves-effect waves-light grey">
 								<i class="tiny material-icons">edit</i>
 							</a>
 						@endif
 					</form>
 				</div>
 			</div>
+
+			@if($id > 0)
+			<div class="row">
+				<div class="grey lighten-4 col s12">
+					<form class="" name="del" action="./api/delTheme.php" method="post">
+						<input type="hidden" name="id" value="{{$id}}"/>
+						@if($login)
+						<a href="javascript:del.submit()" class="btn-floating btn waves-effect waves-light grey">
+							<i class="tiny material-icons">delete</i>
+						</a>
+						@else
+							<a disabled="disabled" class="btn-floating btn waves-effect waves-light grey">
+								<i class="tiny material-icons">delete</i>
+							</a>
+						@endif
+					</form>
+				</div>
+			</div>
+			@endif
 
 			@if(!$login)
 			<div class="row">

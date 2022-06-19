@@ -16,7 +16,7 @@ class BrainStorm{
 	}
 
 	public function getBrainStormThemes(){
-		$list = ORM::for_table("brain_storm")->find_many();
+		$list = ORM::for_table("brain_storm")->where("is_delete", 0)->find_many();
 		return $list;
 	}
 
@@ -123,6 +123,20 @@ class BrainStorm{
 			$result = $relation->id;
 		}else{
 			$result = $exist->id;
+		}
+		return $result;
+	}
+
+	public function delTheme(int $id){
+		$result = 0;
+		$theme = ORM::forTable("brain_storm")
+		->where("id", $id)
+		->findOne();
+		$theme->is_delete = 1;
+		$save_result = $theme->save();
+
+		if($save_result){
+			$result = 1;
 		}
 		return $result;
 	}
