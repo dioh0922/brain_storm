@@ -31,7 +31,7 @@
 				<div class="nav-wrapper">
 					<div class="container">
 						<div class="col s12">
-							<h4 class="center-align" style="padding-top: 10px;">旅行するときの計画メモ</h4>
+							<h5 class="center-align" style="padding-top: 10px;">旅行するときの計画メモ</h5>
 						</div>
 					</div>
 				</div>
@@ -138,7 +138,7 @@
 				</div>
 			</div>
 			@endif
-			
+
 			@if(!$login)
 			<div class="row">
 				<form class="" name="login" action="./api/login.php" method="post">
