@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', "On");
 require_once(dirname(__FILE__)."/svr/BrainStormModule.php");
 $module = new BrainStorm();
 $id = 0;
